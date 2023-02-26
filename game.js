@@ -5,7 +5,25 @@ console.log('localforage', localforage);
 
 const data = reactive({
   name: '',
-  avatar: '🧙'
+  avatar: '🧙',
+  gold: 0,
+  level: 1,
+  exp: 0,
+  food: 0,
+  hp: 100,
+  maxHp: 100,
+  maxFood: 100,
+  maxGold: 100,
+  maxLevel: 100,
+  monsters: [
+    {
+      'name': 'Dragon',
+      'icon': '🐲',
+      'hp': 100, 'maxHp': 100, 'level': 1, 'exp': 10
+    }
+  ],
+  stamina: 10,
+  mode: 'default'
 });
 
 
@@ -59,6 +77,27 @@ const changeName = () => {
   data.name = prompt("Please enter a player name");
   localforage.setItem("name", data.name);
 }
+
+// actions 
+
+html`
+<button 
+  class="red" 
+  @click="${(e) => {
+  }}"
+  >⚔ Fight</button>
+  <button 
+    class="blue" 
+    @click="${(e) => {
+  }}"
+    >🏠 Rest</button>
+<button
+  class="green"
+  @click="${(e) => {
+  }}"
+  >🍅 Gather</button>
+`(document.querySelector('.game-actions'));
+
 
 
 // trigger init
