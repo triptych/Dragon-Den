@@ -84,20 +84,42 @@ html`
 <button 
   class="red" 
   @click="${(e) => {
+    data.mode = 'fight';
   }}"
   >⚔ Fight</button>
   <button 
     class="blue" 
     @click="${(e) => {
+    data.mode = 'rest'
   }}"
     >🏠 Rest</button>
 <button
   class="green"
   @click="${(e) => {
+    data.mode = 'gather'
   }}"
   >🍅 Gather</button>
 `(document.querySelector('.game-actions'));
 
+html`
+${() => {
+    switch (data.mode) {
+      case 'default': return html`
+      <b>Choose an option above</b>
+    `;
+        break;
+      case 'fight': return html`
+      <b>Fight</b>
+    `;
+      case 'gather': return html`
+      <b>Gather</b>
+    `;
+      case 'rest': return html`
+      <b>Rest</b>
+    `;
+    }
+  }}
+`(document.querySelector('.game-mode'));
 
 
 // trigger init
