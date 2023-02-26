@@ -1,0 +1,44 @@
+/* html {
+  height: 100%;
+  width: 100%;
+}
+
+header ul {
+  display: flex;
+  list-style: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+header ul li {
+  flex: 1;
+}
+
+header ul li a {
+  display: block;
+  text-decoration: none;
+  padding: 8px;
+  xbackground-color: #000;
+  color: #fff;
+} */
+
+/* body {
+  background-image: url(img/YDrO7X4coSqwscYPgNRP--2--d8xb0.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+} */
+
+body {
+    background: linear-gradient(45deg, #A389ED, #59A3FA);
+    background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.game {
+  width: 640px;
+  height: 480px;
+  border: 1px solid red;
+  background-color: lightgoldenrodyellow;
+}
