@@ -42,3 +42,16 @@ body {
   border: 1px solid red;
   background-color: lightgoldenrodyellow;
 }
+
+.container {
+  margin-top: 1em;
+}
+
+button {
+  cursor: pointer;
+  
+}
+
+.avatar {
+  font-size: 2em;
+}

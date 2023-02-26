@@ -5,6 +5,7 @@ console.log('localforage', localforage);
 
 const data = reactive({
   name: '',
+  avatar: '🧙'
 });
 
 
@@ -30,19 +31,34 @@ const getName = () => {
 }
 
 // render name or ask for name
-html`${() => {
-  if (data.name) {
-    return html`Name: ${data.name}`;
-  } else {
-    return html`Name: ${() => {
-      const name = prompt("Please enter your name");
-      data.name = name;
-    }}`;
-  }
-}}`(document.querySelector('.game-name'));
+// html`${() => {
+//   if (data.name) {
+//     return html`Name: ${data.name}`;
+//   } else {
+//     return html`Name: ${() => {
+//       const name = prompt("Please enter your name");
+//       data.name = name;
+//     }}`;
+//   }
+// }}`(document.querySelector('.game-name'));
+html`
+  Name: ${() => data.name} 
+  <button 
+    class="purple"
+    @click="${(e) => {
+    console.log("button clicked e", e);
+    changeName();
+  }}">Change</button>
+`(document.querySelector('.game-name'));
 
 
-
+// render avatar
+html`<div class="avatar">${data.avatar}</div>`(document.querySelector('.game-avatar'));
+// methods
+const changeName = () => {
+  data.name = prompt("Please enter a player name");
+  localforage.setItem("name", data.name);
+}
 
 
 // trigger init
