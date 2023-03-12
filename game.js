@@ -78,7 +78,10 @@ html`
 // render avatar
 html`
 <div class="avatar">${data.avatar}</div>
-<div class="stats">${"HP: " + data.hp + " / " + data.maxHp}</div>
+<div class="stats">
+  <div>HP: ${() => data.hp} / ${() => data.maxHp}</div>
+  <div>${"Level: " + data.level + " / " + data.maxLevel}</div>
+</div>
 `(document.querySelector('.game-avatar'));
 // methods
 const changeName = () => {
@@ -112,32 +115,59 @@ html`
 html`
 ${() => {
     switch (data.mode) {
-      case 'default': return html`
-      <b>Choose an option above</b>
-    `;
+      case 'default': return html` <b>Choose an option above</b>`;
+        break;
+      case 'choose': return html`
+        ${() => getDefaultUI()}
+        `;
         break;
       case 'fight': return html`
-      ${() => getFightUI()}
-    `;
+        ${() => getFightUI()}
+        `;
+        break;
       case 'gather': return html`
-      ${() => getGatherUI()}
-    `;
+        ${() => getGatherUI()}
+        `;
+        break;
       case 'rest': return html`
-      ${() => getRestUI()}
-    `;
+        ${() => getRestUI()}
+        `;
+        break;
+      default: return html`- Something went wrong - `;
     }
   }}
 `(document.querySelector('.game-mode'));
 
+// render default 
+
+const getDefaultUI = () => {
+  return html`
+    <b>Choose an option above</b>
+    `;
+};
+
+// render fight
 const getFightUI = () => {
   console.log('getfightUI');
   return html`
   <h2>Fight</h2>
   <div class="monster">
-    <div class="icon">${data.monsters[0].icon}</div>
-    <div class="name">${data.monsters[0].name}</div>
+    <div class="monster-icon">${data.monsters[0].icon}</div>
+    <div class="monster-name">Name: ${data.monsters[0].name}</div>
+    <div class="monster-hp">HP: ${data.monsters[0].hp} / ${data.monsters[0].maxHp}</div>
+    <div class="monster-level">Level: ${data.monsters[0].level}</div>
   </div>
-    </div
+  <div class="battleUI">
+    <button class="purple" @click="${(e) => {
+      data.monsters[0].hp = data.monsters[0].hp - 1;
+      data.hp = data.hp - 1;
+      localforage.setItem("monsters", data.monsters);
+    }}"> Attack
+      </button>
+    <button class="orange" @click="${(e) => {
+      data.mode = "choose";
+    }}"> Flee</button>
+  </div>
   `;
 }
 
@@ -149,6 +179,9 @@ const getRestUI = () => {
   console.log('getrestUI');
   return html`<>-- Rest --<>`;
 }
+
+
+
 
 // trigger init
 
