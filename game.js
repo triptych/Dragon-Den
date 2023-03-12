@@ -2,6 +2,7 @@ import { reactive, html, watch } from 'https://cdn.skypack.dev/@arrow-js/core';
 
 
 console.log('localforage', localforage);
+console.log('easytimer', easytimer);
 
 const data = reactive({
   name: '',
@@ -28,15 +29,40 @@ const data = reactive({
     }
   ],
   stamina: 10,
-  mode: 'default'
+  mode: 'default',
+  time: 0,
 });
 
+let gameTimer = new easytimer.Timer();
 
 
 const init = () => {
   console.log("init");
+  startTimer();
+  renderTime();
   getName();
+  getHP();
 }
+
+// start timer
+const startTimer = () => {
+  console.log('startTimer gameTimer:', gameTimer);
+  gameTimer.start();
+
+  gameTimer.addEventListener('secondsUpdated', function(e) {
+    // $('#basicUsage').html(timer.getTimeValues().toString());
+    data.time = gameTimer.getTimeValues().toString();
+
+    updateHP();
+
+  });
+}
+
+// render time
+const renderTime = () => {
+  html`Time: ${() => data.time}`(document.querySelector('.timer span'));
+}
+
 
 // get name
 const getName = () => {
@@ -52,6 +78,34 @@ const getName = () => {
     console.error('error:', err);
   })
 }
+
+// get HP 
+const getHP = () => {
+  localforage.getItem("hp").then((value) => {
+    console.log("got HP!", value);
+    if (value) {
+      data.hp = value;
+    } else {
+      data.hp = 100
+    }
+  }).catch((err) => {
+    console.error('error:', err);
+  })
+}
+
+// update HP 
+const updateHP = () => {
+  if (data.mode === "rest") {
+    if (data.hp < data.maxHp) {
+      data.hp = data.hp + 1;
+    }
+  }
+  localforage.setItem("hp", data.hp).then(() => {
+    console.log("updated HP!");
+  }).catch((err) => {
+    console.error('error:', err);
+  });
+};
 
 // render name or ask for name
 // html`${() => {
@@ -161,8 +215,9 @@ const getFightUI = () => {
     <button class="purple" @click="${(e) => {
       data.monsters[0].hp = data.monsters[0].hp - 1;
       data.hp = data.hp - 1;
+      localforage.setItem("hp", data.hp);
       localforage.setItem("monsters", data.monsters);
-    }}"> Attack
+    }}">Attack
       </button>
     <button class="orange" @click="${(e) => {
       data.mode = "choose";

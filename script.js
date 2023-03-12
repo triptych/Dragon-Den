@@ -2,6 +2,7 @@
 
 
 console.log('localforage', localforage);
+console.log('easytimer', easytimer);
 
 const init = () => {
   console.log("init");
