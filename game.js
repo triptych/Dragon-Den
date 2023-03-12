@@ -20,6 +20,11 @@ const data = reactive({
       'name': 'Dragon',
       'icon': '🐲',
       'hp': 100, 'maxHp': 100, 'level': 1, 'exp': 10
+    },
+    {
+      'name': 'Goblin',
+      'icon': '👹',
+      'hp': 100, 'maxHp': 100, 'level': 1, 'exp': 10
     }
   ],
   stamina: 10,
@@ -71,7 +76,10 @@ html`
 
 
 // render avatar
-html`<div class="avatar">${data.avatar}</div>`(document.querySelector('.game-avatar'));
+html`
+<div class="avatar">${data.avatar}</div>
+<div class="stats">${"HP: " + data.hp + " / " + data.maxHp}</div>
+`(document.querySelector('.game-avatar'));
 // methods
 const changeName = () => {
   data.name = prompt("Please enter a player name");
@@ -109,18 +117,38 @@ ${() => {
     `;
         break;
       case 'fight': return html`
-      <b>Fight</b>
+      ${() => getFightUI()}
     `;
       case 'gather': return html`
-      <b>Gather</b>
+      ${() => getGatherUI()}
     `;
       case 'rest': return html`
-      <b>Rest</b>
+      ${() => getRestUI()}
     `;
     }
   }}
 `(document.querySelector('.game-mode'));
 
+const getFightUI = () => {
+  console.log('getfightUI');
+  return html`
+  <h2>Fight</h2>
+  <div class="monster">
+    <div class="icon">${data.monsters[0].icon}</div>
+    <div class="name">${data.monsters[0].name}</div>
+  </div>
+    </div
+  `;
+}
+
+const getGatherUI = () => {
+  console.log('getgatherUI');
+  return html`<>-- Gather --<>`;
+}
+const getRestUI = () => {
+  console.log('getrestUI');
+  return html`<>-- Rest --<>`;
+}
 
 // trigger init
 
